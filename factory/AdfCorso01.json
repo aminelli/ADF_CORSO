@@ -1,0 +1,9 @@
+{
+	"name": "AdfCorso01",
+	"location": "westeurope",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "7e44f074-d501-4c44-902c-863f57a21460",
+		"tenantId": "6c7d8b3b-8c71-4013-be58-e78af03cde75"
+	}
+}
