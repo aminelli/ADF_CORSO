@@ -1,0 +1,114 @@
+{
+	"name": "PipelineImportJsonSugar",
+	"properties": {
+		"activities": [
+			{
+				"name": "Import SugarData",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "JsonSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true,
+							"wildcardFolderPath": "azure-data-factory-by-example-main/SampleData/SugarCube",
+							"wildcardFileName": "*.json",
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "JsonReadSettings"
+						}
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": "TRUNCATE TABLE dbo.Sales_LOAD",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false,
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "Retailer",
+									"type": "String"
+								},
+								"sink": {
+									"name": "Retailer",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "SalesMonth",
+									"type": "String"
+								},
+								"sink": {
+									"name": "SalesMonth",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "Product",
+									"type": "String"
+								},
+								"sink": {
+									"name": "Product",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "SalesValue",
+									"type": "String"
+								},
+								"sink": {
+									"name": "SalesValueUSD",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "UnitsSold",
+									"type": "String"
+								},
+								"sink": {
+									"name": "UnitsSold",
+									"type": "Int32"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "SourceDatasetJsonSugar",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DestinationDatasetSqlSalesLoad",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "ImportSQL"
+		},
+		"annotations": []
+	}
+}
